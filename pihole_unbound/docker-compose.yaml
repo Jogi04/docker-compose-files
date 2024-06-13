@@ -1,0 +1,39 @@
+networks:
+  dns_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.23.0.0/24
+
+
+services:
+  pihole:
+    container_name: pihole
+    hostname: pihole
+    image: pihole/pihole:latest
+    networks:
+      dns_net:
+        ipv4_address: 172.23.0.2
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "80:80/tcp"
+    environment:
+      TZ: 'Europe/Berlin'
+      WEBPASSWORD: 'password'
+      PIHOLE_DNS_: '172.23.0.3#53'
+    volumes:
+      - './etc-pihole:/etc/pihole'
+      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+    restart: unless-stopped
+
+  unbound:
+    container_name: unbound
+    hostname: unbound
+    build:
+      dockerfile: Dockerfile
+    networks:
+      dns_net:
+        ipv4_address: 172.23.0.3
+    restart: unless-stopped
+
