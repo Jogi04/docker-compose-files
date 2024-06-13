@@ -1,0 +1,22 @@
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: wireguard
+    hostname: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE #optional
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ="Europe/Berlin"
+      - SERVERURL=eisi.ddns.net #optional
+      - SERVERPORT=52784 #optional
+      - PEERS=vostroWindows,a71,dirk,christineLaptop,christineHandy,uli
+    volumes:
+      - ./config:/config
+    ports:
+      - 52784:52784/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
