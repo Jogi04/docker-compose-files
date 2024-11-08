@@ -12,7 +12,7 @@ services:
       - TZ="Europe/Berlin"
       - SERVERURL=eisi.ddns.net #optional
       - SERVERPORT=52784 #optional
-      - PEERS=vostroWindows,a71,dirk,christineLaptop,christineHandy,uli
+      - PEERS=vostroWindows,a71,dirk,christineLaptop,christineHandy,uli,vostroLinux
     volumes:
       - ./config:/config
     ports:
